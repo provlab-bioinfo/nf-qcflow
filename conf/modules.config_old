@@ -1,0 +1,378 @@
+/*
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    Config file for defining DSL2 per module options and publishing paths
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    Available keys to override module options:
+        ext.args   = Additional arguments appended to command in module.
+        ext.args2  = Second set of arguments appended to command in module (multi-tool modules).
+        ext.args3  = Third set of arguments appended to command in module (multi-tool modules).
+        ext.prefix = File name prefix for output files.
+----------------------------------------------------------------------------------------
+*/
+
+process {
+
+    /* publishDir = [
+        path: { "${params.outdir}/${task.process.tokenize(':')[-1].tokenize('_')[0].toLowerCase()}" },
+        //path: { "${params.outdir}"},
+        mode: params.publish_dir_mode,
+        saveAs: { filename -> filename.equals('versions.yml') ? null : filename }
+    ] */
+    // In your global configuration section:
+    publishDir = [path: {
+        // If the process defines ext.dir, use it. Otherwise, use the lowercase process name.
+        task.ext.dir
+            ? "${params.outdir}/${task.ext.dir}"
+            : "${params.outdir}/${task.process.tokenize(':')[-1].tokenize('_')[0].toLowerCase()}"
+    }, mode: params.publish_dir_mode, saveAs: { filename -> filename.equals('versions.yml') ? null : filename }]
+
+
+    /*
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    QC
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    */
+    withName: FASTP {
+
+        //ext.args = ["--cut_front", "--cut_front_window_size=4", "--cut_front_mean_quality=20", "--cut_tail", "--cut_tail_window_size=4", "--cut_tail_mean_quality=20", "--n_base_limit=0", "--qualified_quality_phred=20", "--average_qual=20", "--length_required=75", "--detect_adapter_for_pe"].join(' ').trim()
+        //match fluAB for easier comparison but will come back again
+        ext.args = [
+            "--cut_front",
+            "--cut_front_window_size=1",
+            "--cut_front_mean_quality=10",
+            "--cut_tail",
+            "--cut_tail_window_size=1",
+            "--cut_tail_mean_quality=10",
+            "--n_base_limit 0",
+            "--qualified_quality_phred 20",
+            "--average_qual 20",
+            "--length_required 50",
+            "--detect_adapter_for_pe"
+        ].join(' ').trim()
+        ext.dir = 'readqc'
+    }
+    withName: FASTPLONG {
+        /*
+1. What Happens with the 200 bp Cutoff (Fastplong)
+
+• The Advantage (Safety Net for Rapid/Degraded Kits): If you happened to use a Rapid Barcoding kit (which fragments amplicons) or if your viral RNA was slightly degraded, keeping reads down to 200 bp ensures you do not lose critical fragment data. These shorter fragments can still be mapped back to a reference genome to build depth.
+• The Disadvantage (Noisy Data): You will pull in a lot of primer-dimers, short non-specific PCR artifacts, and heavily aborted reads. If you are doing de novo assembly, these 200–500 bp reads can confuse the assembler, create loops in the assembly graph, or generate fragmented contigs.
+
+2. What Happens with the 500 bp Cutoff (Porechop + Chopper)
+
+• The Advantage (Cleaner Assembly): Dropping everything below 500 bp acts as an aggressive filter against PCR trash. It ensures that almost every read processed is a substantial piece of an influenza segment, which generally yields cleaner de novo assemblies and fewer false-positive variants during alignment.
+• The Disadvantage (Potential Coverage Gaps): If the ends of your segments (near the universal primers) were heavily chopped due to dropping quality scores, some reads might fall into the 400 bp range. A 500 bp cutoff will throw them away, which could slightly reduce coverage at the extreme 3' and 5' ends of your viral segments.
+
+Direct Comparison Matrix
+
+
+Pipeline Strategy	Minimum Length	Impact on Influenza Data	Recommended Downstream Use
+Porechop + Chopper	500 bp	Discards primer-dimers; highly robust; safe for all 8 complete segments (smallest is ~890 bp).	Ideal for De Novo Assembly (e.g., Flye, Canu) to get clean, full-length segments.
+Fastplong	200 bp	Retains short fragments; maximizes raw read count; risks adding artifact noise.	Ideal for Reference-Guided Mapping (e.g., Minimap2) where short reads can safely map to a known skeleton.
+
+
+Moving Forward: How to Align Them
+
+To truly compare Porechop vs. Fastplong rather than comparing two different length thresholds, you should normalize your parameters.
+If you want to see which tool handles adapters and overall cleaning better, re-run your Fastplong command with --length_required 500 (or push your Chopper min-length down to 200) so they match perfectly. For whole-segment influenza data, 500 bp is generally considered the safer scientific standard to prevent artifact inflation unless you explicitly used a transposase-based Rapid kit.
+Now that you have run both pipelines, let me know:
+• Did you notice a significant difference in the final sequence depth (coverage) or genome completeness between the two?
+• Are you seeing any differences in execution time on your machine?
+the old version is using 500bp, we are goign to use 500 for now
+    */
+        //ext.args = ["--cut_front", "--cut_front_window_size=50", "--cut_front_mean_quality=10", "--cut_tail", "--cut_tail_window_size=50", "--cut_tail_mean_quality=10", "--n_base_limit=0", "--qualified_quality_phred=10", "--mean_qual=10", "--length_required=500"].join(' ').trim()
+        // Swapping window sizes from 50 down to 20 to avoid over-aggressive read destruction
+        ext.args = ["--cut_front", "--cut_front_window_size=20", "--cut_front_mean_quality=10", "--cut_tail", "--cut_tail_window_size=20", "--cut_tail_mean_quality=10", "--n_base_limit=0", "--qualified_quality_phred=10", "--mean_qual=10", "--length_required=500"].join(' ').trim()
+
+        ext.dir = 'readqc'
+    }
+    withName: DEACON_FILTER {
+        ext.prefix = { "${meta.id}.deacon" }
+        ext.dir = 'readqc'
+    }
+    withName: SEQKIT_STATS_INPUT {
+        ext.prefix = { "${meta.id}.input_seqstats" }
+        ext.args = '-b -T'
+        ext.dir = 'readqc'
+    }
+    withName: SEQKIT_STATS_DEHOSTED {
+        ext.prefix = { "${meta.id}.dehost_seqstats" }
+        ext.args = '-b -T '
+        ext.dir = 'readqc'
+    }
+    withName: SEQKIT_STATS_TRIMMED {
+        ext.prefix = { "${meta.id}.trimmed_seqstats" }
+        ext.args = '-b -T'
+        ext.dir = 'readqc'
+    }
+    withName: CSVTK_CONCAT_INPUT_STATS {
+        ext.dir = 'readqc'
+    }
+    withName: SEQKIT_STATS_SUMMARY_INPUT {
+        ext.dir = 'readqc'
+        ext.prefix = { "seqstats.input" }
+    }
+    withName: CSVTK_CONCAT_TRIMMED_STATS {
+        ext.dir = 'readqc'
+    }
+    withName: SEQKIT_STATS_SUMMARY_TRIMMED {
+        ext.dir = 'readqc'
+        ext.prefix = { "seqstats.trimmed" }
+    }
+    withName: CSVTK_CONCAT_DEHOSTED_STATS {
+        ext.dir = 'readqc'
+    }
+    withName: SEQKIT_STATS_SUMMARY_DEHOSTED {
+        ext.dir = 'readqc'
+        ext.prefix = { "seqstats.dehosted" }
+    }
+
+    /*
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    seek references
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    */
+    withName: MASH_SCREEN {
+        ext.args = "-i ${params.mashthreshold} -w -v ${params.max_p_value}"
+        ext.dir = 'seekref'
+    }
+    withName: MASHFILTER {
+        ext.args = "-m ${params.min_hash_coverage} -a ${params.min_median_multiplicity}"
+        ext.dir = 'seekref'
+    }
+    withName: SEQKIT_GREP {
+        ext.prefix = { "${meta.id}-reference" }
+        ext.dir = 'seekref'
+    }
+    withName: SAMTOOLS_FAIDX {
+        ext.dir = 'seekref'
+    }
+
+    /*
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    Mapping
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    */
+    withName: MINIBWA_INDEX {
+        ext.prefix = { "${meta.id}.minibwa" }
+        publishDir = [enabled: false]
+    }
+    withName: MINIBWA_MAP {
+        ext.prefix = { "${meta.id}.minibwa" }
+        ext.dir = 'mapping'
+    }
+    withName: MINIMAP2_ALIGN {
+        //ext.args = " --cs --MD -aLx map-ont --secondary=no"
+        // secondary alignment is needed for influenza virus because of its segmented genome, a single read can map to multiple segments
+        ext.args = " --cs --MD -aLx map-ont"
+        ext.prefix = { "${meta.id}.minimap2" }
+        ext.dir = 'mapping'
+    }
+
+    withName: SAMTOOLS_VIEW_ILLUMINA {
+        ext.prefix = { "${meta.id}.filter" }
+        //ext.args = " -F 3844 --write-index "
+        // should keep duplicates because of amplicon data
+        ext.args = " -F 2820 --write-index "
+        ext.dir = 'mapping'
+    }
+
+    withName: SAMTOOLS_VIEW_NANOPORE {
+        ext.prefix = { "${meta.id}.filter" }
+        //ext.args = " -F 3844 --write-index "
+        // should keep duplicates because of amplicon data
+        // should keep supplimentary alignment becaues mapping can split a single long reds into two pieces
+        ext.args = " -F 772 --write-index "
+        ext.dir = 'mapping'
+    }
+    withName: SAMTOOLS_COVERAGE {
+        ext.prefix = { "${meta.id}.coverage" }
+        // do not do any quality filtering for minimum mapping quality -q,
+        //it can filter out the reads with multiple mapping locations,
+        //which is common for influenza virus because of its segmented genome
+        //ext.args = " -d 0 -q 0 -Q 0"
+        ext.args = " -d 0 -q 0 -Q 10"
+        ext.dir = 'mapping'
+    }
+
+    /*
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    variants
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    */
+    withName: FREEBAYES {
+        ext.args = ["--ploidy 1", "--haplotype-length -1", "--min-mapping-quality 20", "--min-base-quality 30", "--min-alternate-fraction 0.05", "--min-alternate-count 2", "--min-alternate-total 3", "--pooled-continuous"].join(' ').trim()
+        ext.prefix = { "${meta.id}.freebayes" }
+        ext.dir = 'variants'
+    }
+    withName: CLAIR3 {
+        //orginal args
+        //ext.args = ["--platform=\"ont\"", "--haploid_precise", "--enable_long_indel", "--keep_iupac_bases", "--include_all_ctgs", " --no_phasing_for_fa", "--min_coverage=${params.mindepth}", "--min_mq=30", "--base_err=0.05", "--var_pct_full=1", "--ref_pct_full=1", "--var_pct_phasing=1"].join(' ').trim()
+        ext.args = ["--platform=\"ont\"", "--haploid_precise", "--enable_long_indel", "--keep_iupac_bases", "--include_all_ctgs", " --no_phasing_for_fa", "--min_coverage=${params.mindepth}", "--min_mq=30", "--var_pct_full=1", "--ref_pct_full=1", "--var_pct_phasing=1", "--enable_variant_calling_at_sequence_head_and_tail"].join(' ').trim()
+
+
+        //nf-flu from cifa parameters
+        //ext.args = '--haploid_sensitive --enable_long_indel --keep_iupac_bases --include_all_ctgs --var_pct_phasing=1 --var_pct_full=1 --ref_pct_full=1 --platform="ont" --enable_variant_calling_at_sequence_head_and_tail'
+
+        ext.prefix = { "${meta.id}.clair3" }
+        ext.dir = 'variants'
+    }
+    withName: BCF_FILTER {
+        ext.dir = 'variants'
+    }
+    withName: BCFTOOLS_STATS {
+        ext.prefix = { "${meta.id}.bcftools_filt" }
+        ext.dir = 'variants'
+    }
+
+    //produce bed file with low depth region of the reference
+    withName: BEDTOOLS_GENOMECOV {
+        ext.args = "-bga  | awk \'\$4 < ${params.mindepth}\' "
+        ext.prefix = { "${meta.id}.perbase_depth_low" }
+        ext.dir = "mapping"
+    }
+
+    /*
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    consensus
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    */
+
+    withName: BCF_CONSENSUS {
+        ext.dir = "consensus"
+    }
+    withName: SEQKIT_FX2TAB {
+        ext.args = '--only-id --name --length -C ATCG -C RYSWKMBDHV -C N -H'
+        ext.suffix = 'txt'
+        //ext.prefix = { "${meta.id}.bcftools_consensus_stats" }
+        ext.prefix = { "${meta.id}.consensus_stats" }
+        ext.dir = "consensus"
+    }
+
+
+    withName: CONSENSUS_FILTER {
+        ext.prefix = { "${meta.id}.consensus" }
+        ext.dir = "consensus"
+        //ext.args = "--maxambigs 0.20"
+        //change to 50%, this is the cutoff NML using
+        ext.args = "--maxambigs ${params.consensus_maxambigs}"
+
+    }
+
+    withName: CONCAT_CONSENSUS {
+        ext.prefix = { "all_consensus" }
+        //ext.dir = 'report'
+        publishDir = [
+            [
+                path: { "${params.outdir}/report" },
+                mode: params.publish_dir_mode,
+            ],
+            [
+                path: { "${params.outdir}/consensus" },
+                mode: params.publish_dir_mode,
+            ],
+        ]
+
+    }
+    withName: CONSENSUS_REPORT {
+
+        ext.dir = 'consensus'
+    }
+    withName: CONCAT_CONSENSUS_REPORT {
+        //ext.dir = 'report'
+        publishDir = [
+            [
+                path: { "${params.outdir}/report" },
+                mode: params.publish_dir_mode,
+            ],
+            [
+                path: { "${params.outdir}/consensus" },
+                mode: params.publish_dir_mode,
+            ],
+        ]
+    }
+    /*
+    ----------------------------------------------------------------------------------------
+        classifier: nextclade
+    ----------------------------------------------------------------------------------------
+    */
+
+    withName: BLAST_BLASTN {
+        ext.args = "-max_target_seqs ${params.max_target_seqs} -outfmt '6 std qlen slen qcovs' -perc_identity ${params.min_blast_ident} -qcov_hsp_perc ${params.qcov_hsp_perc} -evalue ${params.evalue}"
+        //q cover filter
+        //ext.args2 = " ${params.min_blast_cov} "
+
+        publishDir = [enabled: false]
+    }
+    withName: CSVTK_ADD_HEADER_BLASTN {
+        ext.prefix = { "${meta.id}.blast" }
+        ext.args = "-t -H "
+        ext.dir = "typing"
+    }
+    withName: PROCESS_BLAST {
+        //ext.prefix = { "${meta.id}.subtype" }
+        //ext.dir = "typing"
+        publishDir = [
+            [
+                path: { "${params.outdir}/report" },
+                mode: params.publish_dir_mode,
+            ],
+            [
+                path: { "${params.outdir}/typing" },
+                mode: params.publish_dir_mode,
+            ],
+        ]
+
+    }
+    withName: VADR_SCAN {
+        ext.dir    = "vadr"
+        ext.prefix = { "${meta.id}" }
+        ext.args   = ""
+    }
+
+    withName: NEXTCLADE_RUN {
+        ext.prefix = { "${meta.id}.nextclade" }
+        ext.dir = 'nextclade/raw_output'
+    }
+
+    withName: AGG_NEXTCLADE_HA_NA {
+        //ext.args = '-d ";"'
+        //ext.dir = 'nextclade'
+        publishDir = [
+            [
+                path: { "${params.outdir}/report" },
+                mode: params.publish_dir_mode,
+            ],
+            [
+                path: { "${params.outdir}/nextclade" },
+                mode: params.publish_dir_mode,
+            ],
+        ]
+
+    }
+    withName: NEXTCLADE_DATASET_GET {
+        ext.dir = "nextclade/datasets"
+    }
+
+    /*
+    ----------------------------------------------------------------------------------------
+        report
+    ----------------------------------------------------------------------------------------
+    */
+    withName: READ_QC_REPORT {
+        //ext.dir = 'report'
+        publishDir = [
+            [
+                path: { "${params.outdir}/report" },
+                mode: params.publish_dir_mode,
+            ],
+            [
+                path: { "${params.outdir}/readqc" },
+                mode: params.publish_dir_mode,
+            ],
+        ]
+    }
+    withName: CREATE_MASTER_REPORT {
+        ext.dir = 'report'
+    }
+}

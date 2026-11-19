@@ -1,0 +1,59 @@
+{
+    "$schema": "https://json-schema.org/draft/2020-12/schema",
+    "$id": "https://raw.githubusercontent.com/xiaoli-dong/influenza/main/assets/schema_input.json",
+    "title": "xiaoli-dong/influenza pipeline - params.input schema",
+    "description": "Schema for the file provided with params.input",
+    "type": "array",
+    "items": {
+        "type": "object",
+        "properties": {
+            "sample": {
+                "type": "string",
+                "pattern": "^\\S+$",
+                "errorMessage": "Sample name must be provided and cannot contain spaces",
+                "meta": ["id"]
+            },
+            "fastq_1": {
+                "type": "string",
+                "pattern": "^(NA|\\S+\\.f(ast)?q\\.gz)$",
+                "errorMessage": "FastQ file for reads 1 must be 'NA' or have extension '.fq.gz' or '.fastq.gz'"
+            },
+            "fastq_2": {
+                "type": "string",
+                "pattern": "^(NA|\\S+\\.f(ast)?q\\.gz)$",
+                "errorMessage": "FastQ file for reads 2 must be 'NA' or have extension '.fq.gz' or '.fastq.gz'"
+            },
+            "fastq_long": {
+                "type": "string",
+                "pattern": "^(NA|\\S+\\.f(ast)?q\\.gz)$",
+                "errorMessage": "Long-read FastQ must be 'NA' or have extension '.fq.gz' or '.fastq.gz'"
+            }
+        },
+        "required": [
+            "sample",
+            "fastq_1",
+            "fastq_2",
+            "fastq_long"
+        ],
+        "anyOf": [
+            {
+                "properties": {
+                    "fastq_1": {
+                        "not": {
+                            "const": "NA"
+                        }
+                    }
+                }
+            },
+            {
+                "properties": {
+                    "fastq_long": {
+                        "not": {
+                            "const": "NA"
+                        }
+                    }
+                }
+            }
+        ]
+    }
+}

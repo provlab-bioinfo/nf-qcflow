@@ -1,0 +1,44 @@
+repository_type: pipeline
+
+nf_core_version: 4.2.1
+
+lint:
+  files_unchanged:
+    - assets/sendmail_template.txt
+    - CODE_OF_CONDUCT.md
+    - assets/nf-core-qcflow_logo_light.png
+    - docs/images/nf-core-qcflow_logo_light.png
+    - docs/images/nf-core-qcflow_logo_dark.png
+    - .github/ISSUE_TEMPLATE/bug_report.yml
+    - .github/PULL_REQUEST_TEMPLATE.md
+    - assets/email_template.txt
+    - docs/README.md
+  nextflow_config:
+    - manifest.name
+    - manifest.homePage
+  multiqc_config: false
+  files_exist:
+    - conf/igenomes.config
+    - conf/igenomes_ignored.config
+    - assets/multiqc_config.yml
+    - CODE_OF_CONDUCT.md
+    - assets/nf-core-qcflow_logo_light.png
+    - docs/images/nf-core-qcflow_logo_light.png
+    - docs/images/nf-core-qcflow_logo_dark.png
+    - .github/ISSUE_TEMPLATE/config.yml
+    - .github/workflows/awstest.yml
+    - .github/workflows/awsfulltest.yml
+
+template:
+  org: xiaoli-dong
+  name: qcflow
+  description: qc flow pipeline
+  author: Xiaoli Dong
+  version: 2.0.0dev
+  force: true
+  outdir: ./nf-qcflow
+  skip_features:
+    - igenomes
+    - multiqc
+    - gpu
+  is_nfcore: false

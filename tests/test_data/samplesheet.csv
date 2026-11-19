@@ -1,0 +1,5 @@
+sample,fastq_1,fastq_2,fastq_long
+sample1,/nfs/Genomics_DEV/projects/xdong/deve/nf-qcflow/tests/test_data/fastq/test1_R1.fastq.gz,/nfs/Genomics_DEV/projects/xdong/deve/nf-qcflow/tests/test_data/fastq/test1_R2.fastq.gz,/nfs/Genomics_DEV/projects/xdong/deve/nf-qcflow/tests/test_data/fastq/test1_long.fastq.gz
+sample2,/nfs/Genomics_DEV/projects/xdong/deve/nf-qcflow/tests/test_data/fastq/test2_R1.fastq.gz,NA,/nfs/Genomics_DEV/projects/xdong/deve/nf-qcflow/tests/test_data/fastq/test2_long.fastq.gz
+sample3,/nfs/Genomics_DEV/projects/xdong/deve/nf-qcflow/tests/test_data/fastq/test1_R1.fastq.gz,/nfs/Genomics_DEV/projects/xdong/deve/nf-qcflow/tests/test_data/fastq/test1_R2.fastq.gz,NA
+sample4,NA,NA,/nfs/Genomics_DEV/projects/xdong/deve/nf-qcflow/tests/test_data/fastq/test1_long.fastq.gz
