@@ -1,6 +1,7 @@
 # nf-qcflow
 
 A comprehensive Nextflow bioinformatics pipeline for next-generation sequencing (NGS) data quality processing. nf-qcflow performs quality control, host sequence removal, contamination screening, and generates detailed statistical reports in both tabular and HTML formats. The pipeline supports both Illumina short-read and Oxford Nanopore long-read sequencing platforms.
+
 A nf-qcflow analysis output demo page can be found at: [nf-qcflow_output_demo](https://github.com/xiaoli-dong/nf-qcflow/tree/main/docs/demo) page
 
 ## Pipeline Summary
@@ -8,7 +9,6 @@ A nf-qcflow analysis output demo page can be found at: [nf-qcflow_output_demo](h
 nf-qcflow supports both short and long reads:
 
 ```mermaid
-
 flowchart LR
     A[Samplesheet] --> B{Platform}
     
@@ -32,172 +32,3 @@ flowchart LR
     D5 --> E
     E --> F[CSV to JSON]
     F --> G[Final HTML Report]
-```
-
-### Short Reads Quality Check and Quality Control
-
-- Short Illumina reads quality checks ([FastQC](https://www.bioinformatics.babraham.ac.uk/projects/fastqc/))
-- Short read quality control ([BBDuk](https://jgi.doe.gov/data-and-tools/software-tools/bbtools/bb-tools-user-guide/bbduk-guide/) | [fastp](https://github.com/OpenGene/fastp))
-- Dehost ([deacon](https://github.com/dcdanko/deacon))
-- Taxonomic assignment and contamination check ([Kraken2](https://ccb.jhu.edu/software/kraken2/) & [Bracken](https://ccb.jhu.edu/software/bracken/))
-- Short read statistics ([seqkit stats](https://bioinf.shenwei.me/seqkit/usage/#stats))
-- Tabular and HTML reports
-
-### Long Reads Quality Check and Quality Control
-
-- Nanopore long read quality checks ([NanoPlot](https://github.com/wdecoster/NanoPlot))
-- Nanopore long read adapter trimming, quality and length filtering:
-  - **Porechop + Chopper**
-    - Adapter removal ([Porechop](https://github.com/rrwick/Porechop))
-    - Quality and length filter ([chopper](https://github.com/wdecoster/chopper))
-  - **fastplong** - Ultrafast preprocessing and quality control ([fastplong](https://github.com/OpenGene/fastplong))
-- Dehost ([deacon](https://github.com/dcdanko/deacon))
-- Taxonomic assignment and contamination check ([Kraken2](https://ccb.jhu.edu/software/kraken2/) & [Bracken](https://ccb.jhu.edu/software/bracken/))
-- Nanopore long read statistics ([seqkit stats](https://bioinf.shenwei.me/seqkit/usage/#stats))
-- Tabular and HTML reports
-
----
-
-## Quick Start
-
-> [!NOTE]
-> If you are new to Nextflow and nf-core, please refer to [this page](https://nf-co.re/docs/usage/installation) on how to set up Nextflow. Make sure to [test your setup](https://nf-co.re/docs/usage/introduction#how-to-run-a-pipeline) with `-profile test` before running the workflow on actual data. This project was built with nf-core/tools 4.0, which requires Nextflow 25.10.4 or later. 
-
-### Check Workflow Options
-
-Please clone nf-qcflow from gitHub to your local computer. To check the pipeline command-line options:
-
-```bash
-nextflow run path_to/nf-qcflow/main --help
-```
-
-### Prepare Required Samplesheet Input
-
-The nf-qcflow pipeline requires a CSV format samplesheet containing sequence information for each sample. See below for what the samplesheet looks like:
-
-**samplesheet.csv**
-
-```csv
-sample,fastq_1,fastq_2,fastq_long
-sample_paired_short_long,shortreads_1.fastq.gz,shortreads_2.fastq.gz,longreads.fastq.gz
-sample_single_short_long,shortreads.fastq,NA,longreads.fastq.gz
-sample_only_long,NA,NA,longreads.fastq.gz
-```
-
-**Samplesheet Format Requirements:**
-
-- The first row of the CSV file is the header describing the columns
-- Each row represents a unique sample to be processed; the first column is the unique sample ID
-- When information for a particular column is missing, fill the column with `NA`
-- The `fastq_1` and `fastq_2` columns are reserved for supplying the short sequence files
-- The `fastq_long` column is reserved for supplying the long sequence file
-
-### Run the Pipeline
-
-Now you can run the pipeline using:
-
-```bash
-# run locally
-nextflow run path_to/nf-qcflow \
-  -profile singularity \
-  --input samplesheet.csv \
-  --outdir results \
-  -resume
-
-# run on HPC cluster with slurm
-nextflow run path_to/nf-qcflow \
-  -profile singularity,slurm \
-  --input samplesheet.csv \
-  --outdir results \
-  -resume
-```
-
-
-> [!IMPORTANT]
-> Please provide pipeline parameters via the CLI or Nextflow `-params-file` option. Custom config files including those provided by the `-c` Nextflow option can be used to provide any configuration **except for parameters**. See [documentation](https://nf-co.re/docs/usage/getting_started/configuration#custom-configuration-files) for more details.
-
----
-
-## Command-Line Options
-
-### Input/Output Options
-
-| Parameter | Type | Description |
-|-----------|------|-------------|
-| `--input` | string | Path to CSV file containing information about the samples |
-| `--outdir` | string | Output directory where results will be saved (use absolute paths for cloud storage) |
-
-### General Parameters
-
-| Parameter | Type | Default | Description |
-|-----------|------|---------|-------------|
-| `--skip_trimmer_short` | boolean | `false` | Skip the trimmer for short reads |
-| `--skip_trimmer_long` | boolean | `false` | Skip the trimmer for long reads |
-| `--short_trimmer` | string | `fastp` | Short read QC tool (`fastp` or `bbduk`) |
-| `--long_trimmer` | string | `fastplong` | Long read QC tool (`fastplong` or `porechop_chopper`) |
-| `--adapter_fasta` | string | `null` | User supplied adapter file |
-| `--skip_dehost` | boolean | `false` | Skip dehost process |
-
-### Database Parameters
-
-| Parameter | Type | Default | Description |
-|-----------|------|---------|-------------|
-| `--kraken2_db` | string | `/your_path_to/kraken2_db` | Path to Kraken2 database |
-| `--deacon_refdb` | string | `/your_path_to/deacon_db` | Path to deacon reference database 
-
-### Help Options
-
-| Parameter | Description |
-|-----------|-------------|
-| `--help` | Show help for all top-level parameters (can specify a parameter for detailed help) |
-| `--help_full` | Show help for all non-hidden parameters |
-| `--show_hidden` | Show hidden parameters (use with `--help` or `--help_full`) |
-
----
-
-## Database Requirements
-
-nf-qcflow requires several databases to be downloaded and configured:
-
-### Kraken2 Database
-```bash
-# Download a pre-built Kraken2 database
-# Standard databases available at: https://benlangmead.github.io/aws-indexes/k2
-wget https://genome-idx.s3.amazonaws.com/kraken/k2_standard_16gb_20250402.tar.gz
-tar -xvzf k2_standard_16gb_20250402.tar.gz
-
-```
-
-### Deacon Database
-```bash
-# Download deacon reference database
-# Visit: https://github.com/dcdanko/deacon for instructions
-```
-
-Provide database paths using the respective parameters (e.g., `--kraken2_db`, `--deacon_refdb`).
-
----
-
-
-## Citations
-
-If you use nf-qcflow in your research, please cite the appropriate tools:
-
-- **FastQC** - Andrews, S. (2010). FastQC: A Quality Control Tool for High Throughput Sequence Data.
-- **fastp** - Chen, S., Zhou, Y., Chen, Y., & Gu, J. (2018). fastp: an ultra-fast all-in-one FASTQ preprocessor. *Bioinformatics*, 34(17), i884-i890.
-- **NanoPlot** - De Coster, W., D'Hert, S., Schultz, D. T., Cruts, M., & Van Broeckhoven, C. (2018). NanoPack: visualizing and processing long-read sequencing data. *Bioinformatics*, 34(15), 2666-2669.
-- **Chopper** - De Coster, W., & Rademakers, R. (2023). NanoPack2: population-scale evaluation of long-read sequencing data. *Bioinformatics*, 39(5), btad311.
-- **hostile** - Bede, P. (2023). hostile: accurate decontamination of microbial sequences. *Journal of Open Source Software*.
-- **Kraken2** - Wood, D. E., Lu, J., & Langmead, B. (2019). Improved metagenomic analysis with Kraken 2. *Genome Biology*, 20(1), 257.
-- **Bracken** - Lu, J., Breitwieser, F. P., Thielen, P., & Salzberg, S. L. (2017). Bracken: estimating species abundance in metagenomics data. *PeerJ Computer Science*, 3, e104.
-- **seqkit** - Shen, W., Le, S., Li, Y., & Hu, F. (2016). SeqKit: A Cross-Platform and Ultrafast Toolkit for FASTA/Q File Manipulation. *PLOS ONE*, 11(10), e0163962.
-
----
-
-## Support
-
-For issues, questions, or feature requests, please [open an issue](https://github.com/xiaoli-dong/nf-qcflow/issues) on GitHub.
-
-## License
-
-This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
