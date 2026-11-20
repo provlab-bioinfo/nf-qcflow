@@ -4,8 +4,6 @@ A comprehensive [Nextflow](https://www.nextflow.io/) bioinformatics pipeline for
 
 A demo of the nf-qcflow output is available on the [nf-qcflow output demo page](https://github.com/xiaoli-dong/nf-qcflow/tree/main/docs/demo).
 
----
-
 ## Pipeline Summary
 
 nf-qcflow supports both short and long reads:
