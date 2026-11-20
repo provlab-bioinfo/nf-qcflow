@@ -11,7 +11,7 @@ nf-qcflow supports both short and long reads:
 
 ```mermaid
 
-flowchart TD
+flowchart LR
     A[Samplesheet] --> B{Platform}
     
     B -->|Illumina| C[QC_SHORT: FASTQC → Seqkit]
