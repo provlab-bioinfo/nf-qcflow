@@ -40,7 +40,7 @@ flowchart LR
 
 - Short Illumina reads quality checks ([FastQC](https://www.bioinformatics.babraham.ac.uk/projects/fastqc/))
 - Short read quality control ([BBDuk](https://jgi.doe.gov/data-and-tools/software-tools/bbtools/bb-tools-user-guide/bbduk-guide/) | [fastp](https://github.com/OpenGene/fastp))
-- Dehost ([hostile](https://github.com/bede/hostile) | [deacon](https://github.com/dcdanko/deacon))
+- Dehost ([deacon](https://github.com/dcdanko/deacon))
 - Taxonomic assignment and contamination check ([Kraken2](https://ccb.jhu.edu/software/kraken2/) & [Bracken](https://ccb.jhu.edu/software/bracken/))
 - Short read statistics ([seqkit stats](https://bioinf.shenwei.me/seqkit/usage/#stats))
 - Tabular and HTML reports
@@ -53,7 +53,7 @@ flowchart LR
     - Adapter removal ([Porechop](https://github.com/rrwick/Porechop))
     - Quality and length filter ([chopper](https://github.com/wdecoster/chopper))
   - **fastplong** - Ultrafast preprocessing and quality control ([fastplong](https://github.com/OpenGene/fastplong))
-- Dehost ([hostile](https://github.com/bede/hostile) | [deacon](https://github.com/dcdanko/deacon))
+- Dehost ([deacon](https://github.com/dcdanko/deacon))
 - Taxonomic assignment and contamination check ([Kraken2](https://ccb.jhu.edu/software/kraken2/) & [Bracken](https://ccb.jhu.edu/software/bracken/))
 - Nanopore long read statistics ([seqkit stats](https://bioinf.shenwei.me/seqkit/usage/#stats))
 - Tabular and HTML reports
