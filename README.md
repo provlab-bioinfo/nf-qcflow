@@ -155,22 +155,6 @@ nextflow run path_to/nf-qcflow \
 
 ---
 
-## Output Structure
-
-```
-results/
-├── fastqc/              # FastQC reports (Illumina)
-├── nanoplot/            # NanoPlot reports (Nanopore)
-├── qc/                  # Quality-controlled reads
-├── dehost/              # Dehosted reads (if applicable)
-├── kraken2/             # Kraken2 taxonomic classification results
-├── bracken/             # Bracken abundance estimation results
-├── stats/               # Read statistics
-└── reports/             # Summary reports (HTML and tabular)
-```
--->
----
-
 ## Database Requirements
 
 nf-qcflow requires several databases to be downloaded and configured:
@@ -190,13 +174,7 @@ tar -xvzf k2_standard_16gb_20250402.tar.gz
 # Visit: https://github.com/dcdanko/deacon for instructions
 ```
 
-### Hostile Database
-```bash
-# Hostile databases are downloaded automatically on first use
-# Or download manually from: https://github.com/bede/hostile
-```
-
-Provide database paths using the respective parameters (e.g., `--kraken2_db`, `--deacon_refdb`, `--hostile_ref_dir`).
+Provide database paths using the respective parameters (e.g., `--kraken2_db`, `--deacon_refdb`).
 
 ---
 
