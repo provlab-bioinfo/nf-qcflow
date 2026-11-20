@@ -178,24 +178,6 @@ Provide database paths using the respective parameters (e.g., `--kraken2_db`, `-
 
 ---
 
-## Tool References
-
-This pipeline uses the following tools:
-
-- [**FastQC**](https://www.bioinformatics.babraham.ac.uk/projects/fastqc/) - Quality control for high throughput sequence data
-- [**fastp**](https://github.com/OpenGene/fastp) - Ultra-fast all-in-one FASTQ preprocessor
-- [**BBDuk**](https://jgi.doe.gov/data-and-tools/software-tools/bbtools/bb-tools-user-guide/bbduk-guide/) - Kmer-based quality and adapter trimming
-- [**NanoPlot**](https://github.com/wdecoster/NanoPlot) - Plotting tools for long read sequencing data
-- [**Porechop**](https://github.com/rrwick/Porechop) - Adapter trimmer for Oxford Nanopore reads
-- [**Chopper**](https://github.com/wdecoster/chopper) - Quality and length filtering for long reads
-- [**fastplong**](https://github.com/OpenGene/fastplong) - Ultra-fast preprocessing for long reads
-- [**hostile**](https://github.com/bede/hostile) - Fast host removal tool
-- [**deacon**](https://github.com/dcdanko/deacon) - Decontamination of sequencing data
-- [**Kraken2**](https://ccb.jhu.edu/software/kraken2/) - Taxonomic sequence classification
-- [**Bracken**](https://ccb.jhu.edu/software/bracken/) - Bayesian re-estimation of abundance with Kraken
-- [**seqkit**](https://bioinf.shenwei.me/seqkit/) - Cross-platform toolkit for FASTA/Q file manipulation
-
----
 
 ## Citations
 
