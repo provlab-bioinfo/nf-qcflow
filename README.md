@@ -98,43 +98,22 @@ sample_only_long,NA,NA,longreads.fastq.gz
 
 Now you can run the pipeline using:
 
-**For Illumina data:**
-
 ```bash
 # run locally
 nextflow run path_to/nf-qcflow \
   -profile singularity \
   --input samplesheet.csv \
-  --platform illumina \
   --outdir results \
   -resume
+
 # run on HPC cluster with slurm
 nextflow run path_to/nf-qcflow \
   -profile singularity,slurm \
   --input samplesheet.csv \
-  --platform illumina \
   --outdir results \
   -resume
 ```
 
-**For Nanopore data:**
-
-```bash
-# run locally
-nextflow run path_to/nf-qcflow \
-  -profile singularity \
-  --input samplesheet.csv \
-  --platform nanopore \
-  --outdir results \
-  -resume
-# run on HPC cluster with slurm
-nextflow run path_to/nf-qcflow \
-  -profile singularity,slurm \
-  --input samplesheet.csv \
-  --platform nanopore \
-  --outdir results \
-  -resume
-```
 
 > [!IMPORTANT]
 > Please provide pipeline parameters via the CLI or Nextflow `-params-file` option. Custom config files including those provided by the `-c` Nextflow option can be used to provide any configuration **except for parameters**. See [documentation](https://nf-co.re/docs/usage/getting_started/configuration#custom-configuration-files) for more details.
@@ -154,23 +133,19 @@ nextflow run path_to/nf-qcflow \
 
 | Parameter | Type | Default | Description |
 |-----------|------|---------|-------------|
-| `--platform` | string | `illumina` | Sequencing platform (`illumina` or `nanopore`) |
-| `--skip_dehost` | boolean | `false` | Skip the dehosting step |
-| `--dehoster` | string | `deacon` | Dehosting tool to use (`deacon` or `hostile`) |
-| `--short_qc_tool` | string | `fastp` | Short read QC tool (`fastp` or `bbduk`) |
-| `--long_qc_tool` | string | `fastplong` | Long read QC tool (`fastplong` or `porechop_chopper`) |
-| `--contaminants_fa` | string | - | Path to custom contaminants FASTA file |
-| `--publish_dir_mode` | string | `copy` | Method for publishing results |
+| `--skip_trimmer_short` | boolean | `false` | Skip the trimmer for short reads |
+| `--skip_trimmer_long` | boolean | `false` | Skip the trimmer for long reads |
+| `--short_trimmer` | string | `fastp` | Short read QC tool (`fastp` or `bbduk`) |
+| `--long_trimmer` | string | `fastplong` | Long read QC tool (`fastplong` or `porechop_chopper`) |
+| `--adapter_fasta` | string | `null` | User supplied adapter file |
+| `--skip_dehost` | boolean | `false` | Skip dehost process |
 
 ### Database Parameters
 
 | Parameter | Type | Default | Description |
 |-----------|------|---------|-------------|
 | `--kraken2_db` | string | `/your_path_to/kraken2_db` | Path to Kraken2 database |
-| `--deacon_refdb` | string | `/your_path_to/deacon_db` | Path to deacon reference database |
-| `--hostile_ref_dir` | string | `/your_path_to/hostile2_db_dir` | Path to hostile reference directory |
-| `--hostile_refdb_short` | string | `human-t2t-hla.argos-bacteria-985_rs-viral-202401_ml-phage-202401` | Hostile reference for short reads |
-| `--hostile_refdb_long` | string | `human-t2t-hla.argos-bacteria-985_rs-viral-202401_ml-phage-202401.mmi` | Hostile reference for long reads |
+| `--deacon_refdb` | string | `/your_path_to/deacon_db` | Path to deacon reference database 
 
 ### Help Options
 
