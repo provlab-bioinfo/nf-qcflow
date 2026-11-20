@@ -80,7 +80,7 @@ The nf-qcflow pipeline requires a CSV format samplesheet containing sequence inf
 **samplesheet.csv**
 
 ```csv
-sample,fastq_1,fastq_2,long_fastq
+sample,fastq_1,fastq_2,fastq_long
 sample_paired_short_long,shortreads_1.fastq.gz,shortreads_2.fastq.gz,longreads.fastq.gz
 sample_single_short_long,shortreads.fastq,NA,longreads.fastq.gz
 sample_only_long,NA,NA,longreads.fastq.gz
