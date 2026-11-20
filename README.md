@@ -157,32 +157,6 @@ nextflow run path_to/nf-qcflow \
 
 ---
 
-## Workflow Overview
-
-```
-Input Reads (FASTQ)
-    ↓
-Quality Assessment
-  • Short reads: FastQC
-  • Long reads: NanoPlot
-    ↓
-Quality Control & Trimming
-  • Short reads: fastp or BBDuk
-  • Long reads: fastplong or Porechop+Chopper
-    ↓
-Host Sequence Removal (deacon or hostile) [optional]
-    ↓
-Taxonomic Classification (Kraken2 & Bracken)
-    ↓
-Read Statistics (seqkit)
-    ↓
-Summary Reports (tabular & HTML)
-    ↓
-Final QC Outputs
-```
-<!--
----
-
 ## Output Structure
 
 ```
