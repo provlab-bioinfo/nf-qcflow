@@ -92,7 +92,7 @@ sample_only_long,NA,NA,longreads.fastq.gz
 - Each row represents a unique sample to be processed; the first column is the unique sample ID
 - When information for a particular column is missing, fill the column with `NA`
 - The `fastq_1` and `fastq_2` columns are reserved for supplying the short sequence files
-- The `long_fastq` column is reserved for supplying the long sequence file
+- The `fastq_long` column is reserved for supplying the long sequence file
 
 ### Run the Pipeline
 
