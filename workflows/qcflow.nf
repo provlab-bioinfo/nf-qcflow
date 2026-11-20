@@ -79,7 +79,7 @@ workflow QCFLOW {
 
     // 1. Combine the two channels into one
     ch_combined_reports = QC_SHORT.out.report_qc.mix(QC_LONG.out.report_qc).collect()
-    ch_combined_reports.view { "COMBINED QC REPORTS: ${it}" }
+    //ch_combined_reports.view { "COMBINED QC REPORTS: ${it}" }
 
     // 3. Pass the list to CSVTK_CONCAT
     CSVTK_CONCAT_COMBINED_QCREPORTS(
@@ -97,7 +97,7 @@ workflow QCFLOW {
             QC_LONG.out.report_topmatches.map { meta, csv -> csv }
         )
         .collect()
-    ch_combined_topmatches.view { "COMBINED TOPMATCHES REPORTS: ${it}" }
+    //ch_combined_topmatches.view { "COMBINED TOPMATCHES REPORTS: ${it}" }
 
     // 3. Pass the list to CSVTK_CONCAT
     CSVTK_CONCAT_COMBINED_TOPMATCHES(

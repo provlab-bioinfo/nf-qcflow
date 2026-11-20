@@ -25,11 +25,10 @@ include { KRAKEN2_KRAKEN2 } from '../../modules/local/kraken2/kraken2/main.nf'
 include { BRACKEN_BRACKEN } from '../../modules/local/bracken/bracken/main'
 include { BRACKEN_GETTOPMATCHES } from '../../modules/local/bracken/gettopmatches/main'
 include {
-    FASTQC as FASTQC_INPUT;
-    FASTQC as FASTQC_TRIMMED;
+    FASTQC as FASTQC_INPUT ;
+    FASTQC as FASTQC_TRIMMED ;
     FASTQC as FASTQC_DEHOSTED
-
- } from '../../modules/nf-core/fastqc/main'
+} from '../../modules/nf-core/fastqc/main'
 
 
 workflow QC_SHORT {
@@ -77,58 +76,62 @@ workflow QC_SHORT {
         }
         adapter_fasta = f
     }
+    if (!params.skip_trimmer_short) {
+        //default
+        if (params.short_trimmer == 'bbduk') {
+            BBMAP_BBDUK(short_reads, adapter_fasta)
 
-    //default
-    if (params.short_trimmer == 'bbduk') {
-        BBMAP_BBDUK(short_reads, adapter_fasta)
+            //get rid of zero size contig file and avoid the downstream crash
+            BBMAP_BBDUK.out.reads
+                .filter { _meta, reads ->
+                    def readsList = reads instanceof List ? reads : [reads]
+                    readsList.size() > 0 && readsList.every { f -> f != null && f.exists() && f.size() > 0 }
+                }
+                .set { trimmed_reads }
+        }
+        else if (params.short_trimmer == 'fastp') {
+            save_trimmed_fail = false
+            discard_trimmed_pass = false
+            save_merged = false
+            FASTP(
+                short_reads.map { _meta, fastqs ->
+                    [_meta, fastqs, adapter_fasta]
+                },
+                discard_trimmed_pass,
+                save_trimmed_fail,
+                save_merged,
+            )
 
-        //get rid of zero size contig file and avoid the downstream crash
-        BBMAP_BBDUK.out.reads
-            .filter { _meta, reads ->
-                def readsList = reads instanceof List ? reads : [reads]
-                readsList.size() > 0 && readsList.every { f -> f != null && f.exists() && f.size() > 0 }
-            }
-            .set { trimmed_reads }
-    }
-    else if (params.short_trimmer == 'fastp') {
-        save_trimmed_fail = false
-        discard_trimmed_pass = false
-        save_merged = false
-        FASTP(
-            short_reads.map { _meta, fastqs ->
-                [_meta, fastqs, adapter_fasta]
+            //get rid of zero size contig file and avoid the downstream crash
+
+            FASTP.out.reads
+                .filter { _meta, reads ->
+                    def readsList = reads instanceof List ? reads : [reads]
+                    readsList.size() > 0 && readsList.every { f -> f != null && f.exists() && f.size() > 0 }
+                }
+                .set { trimmed_reads }
+        }
+        FASTQC_TRIMMED(trimmed_reads)
+
+        SEQKIT_STATS_TRIMMED(trimmed_reads)
+
+        CSVTK_CONCAT_STATS_TRIMMED(
+            SEQKIT_STATS_TRIMMED.out.stats.map { _cfg, stats -> stats }.collect().map { files ->
+                tuple(
+                    [id: "seqstats.trimmed_illumina"],
+                    files,
+                )
             },
-            discard_trimmed_pass,
-            save_trimmed_fail,
-            save_merged,
+            "tsv",
+            "tsv",
         )
 
-        //get rid of zero size contig file and avoid the downstream crash
-
-        FASTP.out.reads
-            .filter { _meta, reads ->
-                def readsList = reads instanceof List ? reads : [reads]
-                readsList.size() > 0 && readsList.every { f -> f != null && f.exists() && f.size() > 0 }
-            }
-            .set { trimmed_reads }
+        SEQKIT_STATS_SUMMARY_TRIMMED(CSVTK_CONCAT_STATS_TRIMMED.out.csv)
     }
-    FASTQC_TRIMMED(trimmed_reads)
+    else{
 
-    SEQKIT_STATS_TRIMMED(trimmed_reads)
-
-    CSVTK_CONCAT_STATS_TRIMMED(
-        SEQKIT_STATS_TRIMMED.out.stats.map { _cfg, stats -> stats }.collect().map { files ->
-            tuple(
-                [id: "seqstats.trimmed_illumina"],
-                files,
-            )
-        },
-        "tsv",
-        "tsv",
-    )
-
-    SEQKIT_STATS_SUMMARY_TRIMMED(CSVTK_CONCAT_STATS_TRIMMED.out.csv)
-
+        trimmed_reads = short_reads
+    }
     /*
      * Host removal
      */

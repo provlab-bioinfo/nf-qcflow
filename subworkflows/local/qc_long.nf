@@ -26,7 +26,7 @@ include {
 
 include {
     NANOPLOT as NANOPLOT_INPUT ;
-    NANOPLOT as NANOPLOT_TRIMMED;
+    NANOPLOT as NANOPLOT_TRIMMED ;
     NANOPLOT as NANOPLOT_DEHOSTED
 } from '../../modules/nf-core/nanoplot/main'
 
@@ -38,7 +38,7 @@ workflow QC_LONG {
 
     /*
      * Input read statistics
-    */
+     */
 
     NANOPLOT_INPUT(long_reads)
 
@@ -79,55 +79,60 @@ workflow QC_LONG {
     }
 
     // QC
-    if (params.long_trimmer == 'fastplong') {
-        FASTPLONG(long_reads, adapter_fasta, discard_trimmed_pass, save_trimmed_fail)
+    if (!params.skip_trimmer_long) {
+        if (params.long_trimmer == 'fastplong') {
+            FASTPLONG(long_reads, adapter_fasta, discard_trimmed_pass, save_trimmed_fail)
 
-        // Drop zero-size / zero-read outputs to avoid downstream crashes.
-        // Normalize single Path vs List, then check existence + read count.
-        FASTPLONG.out.reads
-            .filter { _meta, reads ->
-                def readsList = reads instanceof List ? reads : [reads]
-                readsList.every { f -> f != null && f.exists() && f.size() > 0 } && readsList.sum { f -> f.countFastq() } > 0
-            }
-            .set { trimmed_reads }
+            // Drop zero-size / zero-read outputs to avoid downstream crashes.
+            // Normalize single Path vs List, then check existence + read count.
+            FASTPLONG.out.reads
+                .filter { _meta, reads ->
+                    def readsList = reads instanceof List ? reads : [reads]
+                    readsList.every { f -> f != null && f.exists() && f.size() > 0 } && readsList.sum { f -> f.countFastq() } > 0
+                }
+                .set { trimmed_reads }
+        }
+        else if (params.long_trimmer == 'porechop_chopper') {
+            PORECHOP_PORECHOP(long_reads)
+            PORECHOP_PORECHOP.out.reads
+                .filter { _meta, reads ->
+                    def readsList = reads instanceof List ? reads : [reads]
+                    readsList.every { f -> f != null && f.exists() && f.size() > 0 } && readsList.sum { f -> f.countFastq() } > 0
+                }
+                .set { porechopped_reads }
+
+            // Single CHOPPER call; adapter is a resolved Path or [] (from the shared block above)
+            CHOPPER(porechopped_reads, adapter_fasta)
+
+            CHOPPER.out.fastq
+                .filter { _meta, reads ->
+                    def readsList = reads instanceof List ? reads : [reads]
+                    readsList.every { f -> f != null && f.exists() && f.size() > 0 } && readsList.sum { f -> f.countFastq() } > 0
+                }
+                .set { trimmed_reads }
+        }
+        NANOPLOT_TRIMMED(trimmed_reads)
+
+        SEQKIT_STATS_TRIMMED(trimmed_reads)
+
+        CSVTK_CONCAT_STATS_TRIMMED(
+            SEQKIT_STATS_TRIMMED.out.stats.map { _cfg, stats -> stats }.collect().map { files ->
+                tuple(
+                    [id: "seqstats.trimmed_nanopore"],
+                    files,
+                )
+            },
+            "tsv",
+            "tsv",
+        )
+
+        SEQKIT_STATS_SUMMARY_TRIMMED(CSVTK_CONCAT_STATS_TRIMMED.out.csv)
     }
-    else if (params.long_trimmer == 'porechop_chopper') {
-        PORECHOP_PORECHOP(long_reads)
-
-        PORECHOP_PORECHOP.out.reads
-            .filter { _meta, reads ->
-                def readsList = reads instanceof List ? reads : [reads]
-                readsList.every { f -> f != null && f.exists() && f.size() > 0 } && readsList.sum { f -> f.countFastq() } > 0
-            }
-            .set { porechopped_reads }
-
-        // Single CHOPPER call; adapter is a resolved Path or [] (from the shared block above)
-        CHOPPER(porechopped_reads, adapter_fasta)
-
-        CHOPPER.out.fastq
-            .filter { _meta, reads ->
-                def readsList = reads instanceof List ? reads : [reads]
-                readsList.every { f -> f != null && f.exists() && f.size() > 0 } && readsList.sum { f -> f.countFastq() } > 0
-            }
-            .set { trimmed_reads }
+    else {
+        trimmed_reads = long_reads
     }
 
-    NANOPLOT_TRIMMED(trimmed_reads)
 
-    SEQKIT_STATS_TRIMMED(trimmed_reads)
-
-    CSVTK_CONCAT_STATS_TRIMMED(
-        SEQKIT_STATS_TRIMMED.out.stats.map { _cfg, stats -> stats }.collect().map { files ->
-            tuple(
-                [id: "seqstats.trimmed_nanopore"],
-                files,
-            )
-        },
-        "tsv",
-        "tsv",
-    )
-
-    SEQKIT_STATS_SUMMARY_TRIMMED(CSVTK_CONCAT_STATS_TRIMMED.out.csv)
     /*
      * Host removal
      */
