@@ -10,16 +10,30 @@ nf-qcflow supports both short and long reads:
 
 
 ```mermaid
+
 flowchart TD
-    A[FASTQ] --> B{Platform}
-    B -->|Illumina| C[FastQC → fastp/BBDuk]
-    B -->|Nanopore| D[NanoPlot → fastplong/Porechop+Chopper]
-    C --> E[SeqKit stats]
-    D --> E
-    E --> F[Deacon/hostile]
-    F --> G[Kraken2 → Bracken]
-    G --> H[Reports]
-    H --> I[Output]
+    A[Samplesheet] --> B{Platform}
+    
+    B -->|Illumina| C[QC_SHORT: FASTQC → Seqkit]
+    C --> C2{Trimmer}
+    C2 -->|bbduk| C3A[BBDuk]
+    C2 -->|fastp| C3B[fastp]
+    C3A --> C4[Deacon]
+    C3B --> C4
+    C4 --> C5[Kraken2 → Bracken]
+    
+    B -->|Nanopore| D[QC_LONG: NanoPlot → Seqkit]
+    D --> D2{Trimmer}
+    D2 -->|fastplong| D3A[fastplong]
+    D2 -->|porechop_chopper| D3B[Porechop → Chopper]
+    D3A --> D4[Deacon]
+    D3B --> D4
+    D4 --> D5[Kraken2 → Bracken]
+    
+    C5 --> E[CSVTK CONCAT & SORT]
+    D5 --> E
+    E --> F[CSV to JSON]
+    F --> G[Final HTML Report]
 ```
 
 ### Short Reads Quality Check and Quality Control
