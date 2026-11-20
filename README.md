@@ -4,18 +4,6 @@ A comprehensive [Nextflow](https://www.nextflow.io/) bioinformatics pipeline for
 
 A demo of the nf-qcflow output is available on the [nf-qcflow output demo page](https://github.com/xiaoli-dong/nf-qcflow/tree/main/docs/demo).
 
-## Table of Contents
-
-- [Pipeline Summary](#pipeline-summary)
-  - [Short Reads](#short-reads-quality-check-and-quality-control)
-  - [Long Reads](#long-reads-quality-check-and-quality-control)
-- [Quick Start](#quick-start)
-- [Command-Line Options](#command-line-options)
-- [Database Requirements](#database-requirements)
-- [Citations](#citations)
-- [Support](#support)
-- [License](#license)
-
 ---
 
 ## Pipeline Summary
