@@ -1,0 +1,481 @@
+<!--
+  ~ Copyright 2013-2026, Seqera Labs
+  ~
+  ~ Licensed under the Apache License, Version 2.0 (the "License");
+  ~ you may not use this file except in compliance with the License.
+  ~ You may obtain a copy of the License at
+  ~
+  ~     http://www.apache.org/licenses/LICENSE-2.0
+  ~
+  ~ Unless required by applicable law or agreed to in writing, software
+  ~ distributed under the License is distributed on an "AS IS" BASIS,
+  ~ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  ~ See the License for the specific language governing permissions and
+  ~ limitations under the License.
+  -->
+<html>
+<head>
+<meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1, maximum-scale=1">
+</head>
+<body>
+<pre class="mermaid" style="text-align: center;">
+%%{
+  init: {
+    'theme': 'base',
+    'themeVariables': {
+      'primaryColor': '#B6ECE2',
+      'primaryTextColor': '#160F26',
+      'primaryBorderColor': '#065647',
+      'lineColor': '#545555',
+      'clusterBkg': '#BABCBD22',
+      'clusterBorder': '#DDDEDE',
+      'fontFamily': 'arial'
+    }
+  }
+}%%
+flowchart TB
+    subgraph " "
+    v0["channel.empty"]
+    v2["channel.fromList"]
+    v6["channel.empty"]
+    v18["in_format"]
+    v19["out_format"]
+    v25["discard_trimmed_pass"]
+    v26["save_trimmed_fail"]
+    v27["save_merged"]
+    v45["in_format"]
+    v46["out_format"]
+    v51[" "]
+    v67["in_format"]
+    v68["out_format"]
+    v73["db"]
+    v74["save_output_fastqs"]
+    v75["save_reads_assignment"]
+    v82["database"]
+    v91["in_format"]
+    v92["out_format"]
+    v95["in_format"]
+    v96["out_format"]
+    v102["platform"]
+    v115["in_format"]
+    v116["out_format"]
+    v121["adapter_fasta"]
+    v122["discard_trimmed_pass"]
+    v123["save_trimmed_fail"]
+    v141["in_format"]
+    v142["out_format"]
+    v147[" "]
+    v164["in_format"]
+    v165["out_format"]
+    v170["db"]
+    v171["save_output_fastqs"]
+    v172["save_reads_assignment"]
+    v179["database"]
+    v188["in_format"]
+    v189["out_format"]
+    v192["in_format"]
+    v193["out_format"]
+    v199["platform"]
+    v210["channel.fromPath"]
+    v218["in_format"]
+    v219["out_format"]
+    v232["in_format"]
+    v233["out_format"]
+    v239[" "]
+    v249["channel.of"]
+    end
+    subgraph " "
+    v1["versions"]
+    v10[" "]
+    v11[" "]
+    v12[" "]
+    v14[" "]
+    v21[" "]
+    v23[" "]
+    v29[" "]
+    v30[" "]
+    v31[" "]
+    v32[" "]
+    v33[" "]
+    v34[" "]
+    v37[" "]
+    v38[" "]
+    v39[" "]
+    v41[" "]
+    v48[" "]
+    v50[" "]
+    v55[" "]
+    v56[" "]
+    v59[" "]
+    v60[" "]
+    v61[" "]
+    v63[" "]
+    v70[" "]
+    v72[" "]
+    v77[" "]
+    v78[" "]
+    v79[" "]
+    v80[" "]
+    v81[" "]
+    v84[" "]
+    v85[" "]
+    v87[" "]
+    v94[" "]
+    v98[" "]
+    v104[" "]
+    v106[" "]
+    v107[" "]
+    v108[" "]
+    v109[" "]
+    v111[" "]
+    v118[" "]
+    v120[" "]
+    v125[" "]
+    v126[" "]
+    v127[" "]
+    v128[" "]
+    v129[" "]
+    v132[" "]
+    v133[" "]
+    v134[" "]
+    v135[" "]
+    v137[" "]
+    v144[" "]
+    v146[" "]
+    v151[" "]
+    v152[" "]
+    v155[" "]
+    v156[" "]
+    v157[" "]
+    v158[" "]
+    v160[" "]
+    v167[" "]
+    v169[" "]
+    v174[" "]
+    v175[" "]
+    v176[" "]
+    v177[" "]
+    v178[" "]
+    v181[" "]
+    v182[" "]
+    v184[" "]
+    v191[" "]
+    v195[" "]
+    v201[" "]
+    v209[" "]
+    v212[" "]
+    v216[" "]
+    v221[" "]
+    v223[" "]
+    v224[" "]
+    v230[" "]
+    v235[" "]
+    v237[" "]
+    v238[" "]
+    v254[" "]
+    end
+    subgraph "XIAOLIDONG_QCFLOW [XIAOLIDONG_QCFLOW]"
+    subgraph "XIAOLIDONG_QCFLOW:QCFLOW [QCFLOW]"
+    subgraph "XIAOLIDONG_QCFLOW:QCFLOW:QC_SHORT [QC_SHORT]"
+    v9(["FASTQC_INPUT"])
+    v13(["SEQKIT_STATS_INPUT"])
+    v20(["CSVTK_CONCAT_STATS_INPUT"])
+    v22(["SEQKIT_STATS_SUMMARY_INPUT"])
+    v28(["FASTP"])
+    v36(["FASTQC_TRIMMED"])
+    v40(["SEQKIT_STATS_TRIMMED"])
+    v47(["CSVTK_CONCAT_STATS_TRIMMED"])
+    v49(["SEQKIT_STATS_SUMMARY_TRIMMED"])
+    v54(["DEACON_FILTER"])
+    v58(["FASTQC_DEHOSTED"])
+    v62(["SEQKIT_STATS_DEHOSTED"])
+    v69(["CSVTK_CONCAT_STATS_DEHOSTED"])
+    v71(["SEQKIT_STATS_SUMMARY_DEHOSTED"])
+    v76(["KRAKEN2_KRAKEN2"])
+    v83(["BRACKEN_BRACKEN"])
+    v86(["BRACKEN_GETTOPMATCHES"])
+    v93(["CSVTK_CONCAT_TOPMATCHES"])
+    v97(["CSVTK_SORT"])
+    v103(["READ_QCREPORT"])
+    v15(( ))
+    v24(( ))
+    v35(( ))
+    v42(( ))
+    v57(( ))
+    v64(( ))
+    v88(( ))
+    v99(( ))
+    v100(( ))
+    v101(( ))
+    end
+    subgraph "XIAOLIDONG_QCFLOW:QCFLOW:QC_LONG [QC_LONG]"
+    v105(["NANOPLOT_INPUT"])
+    v110(["SEQKIT_STATS_INPUT"])
+    v117(["CSVTK_CONCAT_STATS_INPUT"])
+    v119(["SEQKIT_STATS_SUMMARY_INPUT"])
+    v124(["FASTPLONG"])
+    v131(["NANOPLOT_TRIMMED"])
+    v136(["SEQKIT_STATS_TRIMMED"])
+    v143(["CSVTK_CONCAT_STATS_TRIMMED"])
+    v145(["SEQKIT_STATS_SUMMARY_TRIMMED"])
+    v150(["DEACON_FILTER"])
+    v154(["NANOPLOT_DEHOSTED"])
+    v159(["SEQKIT_STATS_DEHOSTED"])
+    v166(["CSVTK_CONCAT_STATS_DEHOSTED"])
+    v168(["SEQKIT_STATS_SUMMARY_DEHOSTED"])
+    v173(["KRAKEN2_KRAKEN2"])
+    v180(["BRACKEN_BRACKEN"])
+    v183(["BRACKEN_GETTOPMATCHES"])
+    v190(["CSVTK_CONCAT_TOPMATCHES"])
+    v194(["CSVTK_SORT"])
+    v200(["READ_QCREPORT"])
+    v112(( ))
+    v130(( ))
+    v138(( ))
+    v153(( ))
+    v161(( ))
+    v185(( ))
+    v196(( ))
+    v197(( ))
+    v198(( ))
+    end
+    v208(["PUBLISH_SAMPLESHEET"])
+    v211(["COPY_HTML_DIR"])
+    v220(["CSVTK_CONCAT_COMBINED_QCREPORTS"])
+    v222(["CSV2JSON_FOR_HTML_DATATABLE_QCREPORT"])
+    v234(["CSVTK_CONCAT_COMBINED_TOPMATCHES"])
+    v236(["CSV2JSON_FOR_HTML_DATATABLE_TOPMATCHES"])
+    v253(["COPY_VERSIONS_TO_HTMLDIR"])
+    v7(( ))
+    v8(( ))
+    v202(( ))
+    v205(( ))
+    v213(( ))
+    v225(( ))
+    v240(( ))
+    end
+    end
+    subgraph "PIPELINE_INITIALISATION [PIPELINE_INITIALISATION]"
+    v3(( ))
+    end
+    v0 --> v1
+    v2 --> v3
+    v6 --> v240
+    v7 --> v9
+    v9 --> v12
+    v9 --> v11
+    v9 --> v10
+    v7 --> v13
+    v13 --> v14
+    v13 --> v15
+    v18 --> v20
+    v19 --> v20
+    v15 --> v20
+    v20 --> v22
+    v20 --> v21
+    v22 --> v23
+    v22 --> v99
+    v25 --> v28
+    v26 --> v28
+    v27 --> v28
+    v24 --> v28
+    v28 --> v34
+    v28 --> v33
+    v28 --> v32
+    v28 --> v31
+    v28 --> v30
+    v28 --> v29
+    v28 --> v35
+    v35 --> v36
+    v36 --> v39
+    v36 --> v38
+    v36 --> v37
+    v35 --> v40
+    v40 --> v41
+    v40 --> v42
+    v45 --> v47
+    v46 --> v47
+    v42 --> v47
+    v47 --> v49
+    v47 --> v48
+    v49 --> v50
+    v49 --> v100
+    v51 --> v35
+    v35 --> v54
+    v54 --> v56
+    v54 --> v55
+    v54 --> v57
+    v57 --> v58
+    v58 --> v61
+    v58 --> v60
+    v58 --> v59
+    v57 --> v62
+    v62 --> v63
+    v62 --> v64
+    v67 --> v69
+    v68 --> v69
+    v64 --> v69
+    v69 --> v71
+    v69 --> v70
+    v71 --> v72
+    v71 --> v101
+    v73 --> v76
+    v74 --> v76
+    v75 --> v76
+    v57 --> v76
+    v76 --> v81
+    v76 --> v80
+    v76 --> v79
+    v76 --> v83
+    v76 --> v78
+    v76 --> v77
+    v82 --> v83
+    v83 --> v86
+    v83 --> v85
+    v83 --> v84
+    v86 --> v87
+    v86 --> v88
+    v91 --> v93
+    v92 --> v93
+    v88 --> v93
+    v93 --> v97
+    v93 --> v94
+    v95 --> v97
+    v96 --> v97
+    v97 --> v98
+    v97 --> v225
+    v102 --> v103
+    v99 --> v103
+    v100 --> v103
+    v101 --> v103
+    v103 --> v104
+    v103 --> v213
+    v8 --> v105
+    v105 --> v109
+    v105 --> v108
+    v105 --> v107
+    v105 --> v106
+    v8 --> v110
+    v110 --> v111
+    v110 --> v112
+    v115 --> v117
+    v116 --> v117
+    v112 --> v117
+    v117 --> v119
+    v117 --> v118
+    v119 --> v120
+    v119 --> v196
+    v121 --> v124
+    v122 --> v124
+    v123 --> v124
+    v8 --> v124
+    v124 --> v129
+    v124 --> v128
+    v124 --> v127
+    v124 --> v126
+    v124 --> v125
+    v124 --> v130
+    v130 --> v131
+    v131 --> v135
+    v131 --> v134
+    v131 --> v133
+    v131 --> v132
+    v130 --> v136
+    v136 --> v137
+    v136 --> v138
+    v141 --> v143
+    v142 --> v143
+    v138 --> v143
+    v143 --> v145
+    v143 --> v144
+    v145 --> v146
+    v145 --> v197
+    v147 --> v130
+    v130 --> v150
+    v150 --> v152
+    v150 --> v151
+    v150 --> v153
+    v153 --> v154
+    v154 --> v158
+    v154 --> v157
+    v154 --> v156
+    v154 --> v155
+    v153 --> v159
+    v159 --> v160
+    v159 --> v161
+    v164 --> v166
+    v165 --> v166
+    v161 --> v166
+    v166 --> v168
+    v166 --> v167
+    v168 --> v169
+    v168 --> v198
+    v170 --> v173
+    v171 --> v173
+    v172 --> v173
+    v153 --> v173
+    v173 --> v178
+    v173 --> v177
+    v173 --> v176
+    v173 --> v180
+    v173 --> v175
+    v173 --> v174
+    v179 --> v180
+    v180 --> v183
+    v180 --> v182
+    v180 --> v181
+    v183 --> v184
+    v183 --> v185
+    v188 --> v190
+    v189 --> v190
+    v185 --> v190
+    v190 --> v194
+    v190 --> v191
+    v192 --> v194
+    v193 --> v194
+    v194 --> v195
+    v194 --> v225
+    v199 --> v200
+    v196 --> v200
+    v197 --> v200
+    v198 --> v200
+    v200 --> v201
+    v200 --> v213
+    v202 --> v208
+    v205 --> v208
+    v208 --> v209
+    v210 --> v211
+    v211 --> v212
+    v213 --> v216
+    v218 --> v220
+    v219 --> v220
+    v213 --> v220
+    v220 --> v222
+    v220 --> v221
+    v222 --> v224
+    v222 --> v223
+    v225 --> v230
+    v232 --> v234
+    v233 --> v234
+    v225 --> v234
+    v234 --> v236
+    v234 --> v235
+    v236 --> v238
+    v236 --> v237
+    v239 --> v240
+    v249 --> v240
+    v240 --> v253
+    v253 --> v254
+    v3 --> v7
+    v3 --> v8
+    v7 --> v24
+    v57 --> v202
+    v153 --> v205
+
+</pre>
+<script type="module">
+  import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid@11/dist/mermaid.esm.min.mjs';
+  mermaid.initialize({ startOnLoad: true, maxTextSize: Number.MAX_SAFE_INTEGER, maxEdges: Number.MAX_SAFE_INTEGER });
+</script>
+</body>
+</html>

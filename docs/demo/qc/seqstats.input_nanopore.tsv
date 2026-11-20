@@ -1,0 +1,4 @@
+sample	platform	read_type	file	format	type	num_seqs	sum_len	min_len	avg_len	max_len
+sample4	nanopore	single	test1_long.fastq.gz	FASTQ	DNA	5000	7690107	1	1538.0	46871
+sample1	nanopore	single	test1_long.fastq.gz	FASTQ	DNA	5000	7690107	1	1538.0	46871
+sample2	nanopore	single	test2_long.fastq.gz	FASTQ	DNA	5000	9873834	1	1974.8	45305

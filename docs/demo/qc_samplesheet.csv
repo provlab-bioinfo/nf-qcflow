@@ -1,0 +1,5 @@
+sample,fastq_1,fastq_2,fastq_long
+sample1,/nfs/Genomics_DEV/projects/xdong/deve/nf-qcflow/test/results/readqc/sample1.illumina.deacon_1.fastq.gz,/nfs/Genomics_DEV/projects/xdong/deve/nf-qcflow/test/results/readqc/sample1.illumina.deacon_2.fastq.gz,/nfs/Genomics_DEV/projects/xdong/deve/nf-qcflow/test/results/readqc/sample1.nanopore.deacon.fastq.gz
+sample2,/nfs/Genomics_DEV/projects/xdong/deve/nf-qcflow/test/results/readqc/sample2.illumina.deacon.fastq.gz,NA,/nfs/Genomics_DEV/projects/xdong/deve/nf-qcflow/test/results/readqc/sample2.nanopore.deacon.fastq.gz
+sample3,/nfs/Genomics_DEV/projects/xdong/deve/nf-qcflow/test/results/readqc/sample3.illumina.deacon_1.fastq.gz,/nfs/Genomics_DEV/projects/xdong/deve/nf-qcflow/test/results/readqc/sample3.illumina.deacon_2.fastq.gz,NA
+sample4,NA,NA,/nfs/Genomics_DEV/projects/xdong/deve/nf-qcflow/test/results/readqc/sample4.nanopore.deacon.fastq.gz

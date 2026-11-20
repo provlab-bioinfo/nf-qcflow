@@ -1,0 +1,50 @@
+  2.74	267	267	U	0	unclassified
+ 97.26	9468	49	R	1	root
+ 96.75	9419	0	R1	131567	  cellular organisms
+ 96.75	9419	68	D	2	    Bacteria
+ 96.05	9350	13	K	3379134	      Pseudomonadati
+ 95.91	9337	39	P	1224	        Pseudomonadota
+ 95.51	9298	360	C	1236	          Gammaproteobacteria
+ 91.80	8937	206	O	91347	            Enterobacterales
+ 89.67	8729	566	F	543	              Enterobacteriaceae
+ 83.74	8152	65	F1	2890311	                Klebsiella/Raoultella group
+ 83.07	8087	7038	G	570	                  Klebsiella
+ 10.77	1048	208	G1	3390273	                    Klebsiella pneumoniae complex
+  8.48	826	814	S	573	                      Klebsiella pneumoniae
+  0.12	12	6	S1	72407	                        Klebsiella pneumoniae subsp. pneumoniae
+  0.06	6	6	S2	1193292	                          Klebsiella pneumoniae subsp. pneumoniae 1084
+  0.08	8	7	S	244366	                      Klebsiella variicola
+  0.01	1	1	S1	2489014	                        Klebsiella variicola subsp. tropica
+  0.06	6	6	S	1463165	                      Klebsiella quasipneumoniae
+  0.01	1	0	G1	2608929	                    unclassified Klebsiella
+  0.01	1	1	S	2897413	                      Klebsiella sp. KPN54798
+  0.04	4	0	G	547	                Enterobacter
+  0.02	2	0	G1	354276	                  Enterobacter cloacae complex
+  0.01	1	1	S	158836	                    Enterobacter hormaechei
+  0.01	1	1	S	299767	                    Enterobacter ludwigii
+  0.02	2	2	S	539813	                  Enterobacter mori
+  0.04	4	1	G	544	                Citrobacter
+  0.02	2	0	G1	1344959	                  Citrobacter freundii complex
+  0.02	2	2	S	546	                    Citrobacter freundii
+  0.01	1	1	S	545	                  Citrobacter koseri
+  0.02	2	0	G	590	                Salmonella
+  0.02	2	1	S	28901	                  Salmonella enterica
+  0.01	1	0	S1	59201	                    Salmonella enterica subsp. enterica
+  0.01	1	1	S2	90371	                      Salmonella enterica subsp. enterica serovar Typhimurium
+  0.01	1	0	G	158876	                Yokenella
+  0.01	1	1	S	158877	                  Yokenella regensburgei
+  0.01	1	0	F	1903411	              Yersiniaceae
+  0.01	1	0	G	34037	                Rahnella
+  0.01	1	1	S	1805933	                  Rahnella sikkimica
+  0.01	1	1	F	1903414	              Morganellaceae
+  0.01	1	0	O	2887326	            Moraxellales
+  0.01	1	0	F	468	              Moraxellaceae
+  0.01	1	0	G	475	                Moraxella
+  0.01	1	1	S	2904122	                  Moraxella nasicaprae
+  0.01	1	0	K	1783272	      Bacillati
+  0.01	1	0	P	1239	        Bacillota
+  0.01	1	0	C	91061	          Bacilli
+  0.01	1	0	O	1385	            Bacillales
+  0.01	1	0	F	90964	              Staphylococcaceae
+  0.01	1	0	G	1279	                Staphylococcus
+  0.01	1	1	S	1280	                  Staphylococcus aureus

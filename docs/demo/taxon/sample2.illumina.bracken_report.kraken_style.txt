@@ -1,0 +1,43 @@
+100.00	9467	0	R	1	root
+100.00	9467	0	R1	131567	  cellular organisms
+100.00	9467	0	D	2	    Bacteria
+99.99	9465	0	K	3379134	      Pseudomonadati
+99.99	9465	0	P	1224	        Pseudomonadota
+99.99	9465	0	C	1236	          Gammaproteobacteria
+99.98	9464	0	O	91347	            Enterobacterales
+99.97	9463	0	F	543	              Enterobacteriaceae
+99.64	9432	0	F1	2890311	                Klebsiella/Raoultella group
+99.64	9432	0	G	570	                  Klebsiella
+98.63	9337	0	G1	3390273	                    Klebsiella pneumoniae complex
+98.07	9284	9284	S	573	                      Klebsiella pneumoniae
+0.41	38	38	S	244366	                      Klebsiella variicola
+0.15	14	14	S	1463165	                      Klebsiella quasipneumoniae
+1.00	94	0	G1	2608929	                    unclassified Klebsiella
+1.00	94	94	S	2897413	                      Klebsiella sp. KPN54798
+0.21	19	0	G	590	                Salmonella
+0.21	19	19	S	28901	                  Salmonella enterica
+0.06	5	0	G	544	                Citrobacter
+0.05	4	0	G1	1344959	                  Citrobacter freundii complex
+0.05	4	4	S	546	                    Citrobacter freundii
+0.01	1	1	S	545	                  Citrobacter koseri
+0.05	4	0	G	547	                Enterobacter
+0.03	2	0	G1	354276	                  Enterobacter cloacae complex
+0.01	1	1	S	299767	                    Enterobacter ludwigii
+0.02	1	1	S	158836	                    Enterobacter hormaechei
+0.02	2	2	S	539813	                  Enterobacter mori
+0.01	1	0	G	158876	                Yokenella
+0.01	1	1	S	158877	                  Yokenella regensburgei
+0.01	1	0	F	1903411	              Yersiniaceae
+0.01	1	0	G	34037	                Rahnella
+0.01	1	1	S	1805933	                  Rahnella sikkimica
+0.01	1	0	O	2887326	            Moraxellales
+0.01	1	0	F	468	              Moraxellaceae
+0.01	1	0	G	475	                Moraxella
+0.01	1	1	S	2904122	                  Moraxella nasicaprae
+0.01	1	0	K	1783272	      Bacillati
+0.01	1	0	P	1239	        Bacillota
+0.01	1	0	C	91061	          Bacilli
+0.01	1	0	O	1385	            Bacillales
+0.01	1	0	F	90964	              Staphylococcaceae
+0.01	1	0	G	1279	                Staphylococcus
+0.01	1	1	S	1280	                  Staphylococcus aureus

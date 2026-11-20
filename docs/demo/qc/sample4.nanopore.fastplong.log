@@ -1,0 +1,33 @@
+Trying to detect adapter sequence at read start
+Detected: TCGGTGTCTTTGTGGTTTTCGCATTTATCGTGAAACGCTTTCGCGTTTTT
+Trying to detect adapter sequence at read end
+Detected: GTCGGTGTCTTTGTGGTTTTCGCATTTATCGTGAAACGCTTTCGCGTTTTT
+
+Before filtering:
+total reads: 5000
+total bases: 7690107
+Q20 bases: 6729191(87.5045%)
+Q30 bases: 5918894(76.9676%)
+
+After filtering:
+total reads: 3971
+total bases: 7529803
+Q20 bases: 6641661(88.205%)
+Q30 bases: 5862067(77.8515%)
+
+Filtering result:
+reads passed filter: 3971
+reads failed due to low quality: 499
+reads failed due to too many N: 0
+reads failed due to too short: 530
+reads with adapter trimmed: 513
+bases trimmed due to adapters: 39454
+reads with internal adapters/chimeric signals: 0
+bases removed by chimera splitting: 0
+segments produced by chimera splitting: 0
+
+JSON report: sample4.nanopore.fastplong.json
+HTML report: sample4.nanopore.fastplong.html
+
+fastplong --in test1_long.fastq.gz --out sample4.nanopore.fastplong.fastq.gz --json sample4.nanopore.fastplong.json --html sample4.nanopore.fastplong.html --thread 6 --mean_qual 10 -l 200 --report_title sample4.nanopore_fastplong_report 
+fastplong v0.7.0, time used: 1 seconds

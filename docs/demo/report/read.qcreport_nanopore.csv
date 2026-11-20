@@ -1,0 +1,4 @@
+sample,platform,read_type,input_num_reads,input_total_bases,input_avg_len,trimmed_num_reads,trimmed_total_bases,trimmed_avg_len,trimmed_pct,dehosted_num_reads,dehosted_total_bases,dehosted_avg_len,dehosted_pct_of_trimmed
+sample1,nanopore,single,5000,7690107,1538.0,3971,7529803,1896.2,79.4,3966,7519015,1895.9,99.9
+sample2,nanopore,single,5000,9873834,1974.8,4181,9697543,2319.4,83.6,4180,9693740,2319.1,100.0
+sample4,nanopore,single,5000,7690107,1538.0,3971,7529803,1896.2,79.4,3966,7519015,1895.9,99.9

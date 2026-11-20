@@ -1,0 +1,4 @@
+sample	platform	read_type	num_reads	total_bases	min_len	avg_len	max_len
+sample1	illumina	paired	9839	2949444	50	149.9	151
+sample2	illumina	single	9735	1440499	50	148.0	151
+sample3	illumina	paired	9839	2949444	50	149.9	151

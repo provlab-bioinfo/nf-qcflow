@@ -1,0 +1,15 @@
+name	taxonomy_id	taxonomy_lvl	kraken_assigned_reads	added_reads	new_est_reads	fraction_total_reads
+Klebsiella pneumoniae	573	S	826	8458	9284	0.98067
+Klebsiella variicola	244366	S	8	30	38	0.00401
+Klebsiella quasipneumoniae	1463165	S	6	8	14	0.00148
+Klebsiella sp. KPN54798	2897413	S	1	93	94	0.00993
+Enterobacter hormaechei	158836	S	1	0	1	0.00011
+Enterobacter ludwigii	299767	S	1	0	1	0.00011
+Enterobacter mori	539813	S	2	0	2	0.00021
+Citrobacter freundii	546	S	2	2	4	0.00042
+Citrobacter koseri	545	S	1	0	1	0.00011
+Salmonella enterica	28901	S	2	17	19	0.00201
+Yokenella regensburgei	158877	S	1	0	1	0.00011
+Rahnella sikkimica	1805933	S	1	0	1	0.00011
+Moraxella nasicaprae	2904122	S	1	0	1	0.00011
+Staphylococcus aureus	1280	S	1	0	1	0.00011

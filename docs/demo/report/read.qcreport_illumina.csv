@@ -1,0 +1,4 @@
+sample,platform,read_type,input_num_reads,input_total_bases,input_avg_len,trimmed_num_reads,trimmed_total_bases,trimmed_avg_len,trimmed_pct,dehosted_num_reads,dehosted_total_bases,dehosted_avg_len,dehosted_pct_of_trimmed
+sample1,illumina,paired,10000,2997124,149.9,9839,2949444,149.9,98.4,9839,2949444,149.9,100.0
+sample2,illumina,single,10000,1497705,149.8,9735,1440499,148.0,97.4,9735,1440499,148.0,100.0
+sample3,illumina,paired,10000,2997124,149.9,9839,2949444,149.9,98.4,9839,2949444,149.9,100.0

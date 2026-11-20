@@ -1,0 +1,6 @@
+sample	platform	read_type	file	format	type	num_seqs	sum_len	min_len	avg_len	max_len
+sample2	illumina	single	sample2.illumina.fastp.fastq.gz	FASTQ	DNA	9735	1440499	50	148.0	151
+sample1	illumina	paired	sample1.illumina_R1.fastp.fastq.gz	FASTQ	DNA	9839	1474640	50	149.9	151
+sample1	illumina	paired	sample1.illumina_R2.fastp.fastq.gz	FASTQ	DNA	9839	1474804	50	149.9	151
+sample3	illumina	paired	sample3.illumina_R1.fastp.fastq.gz	FASTQ	DNA	9839	1474640	50	149.9	151
+sample3	illumina	paired	sample3.illumina_R2.fastp.fastq.gz	FASTQ	DNA	9839	1474804	50	149.9	151

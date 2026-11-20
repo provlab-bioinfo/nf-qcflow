@@ -1,0 +1,4 @@
+Sample,Platform,Match1,count1,perc1,Match2,count2,perc2,Match3,count3,perc3,Match4,count4,perc4
+sample1,illumina,Klebsiella pneumoniae,9136,93.03,Klebsiella sp. Shm-1,221,2.25,Klebsiella quasipneumoniae,164,1.67,Klebsiella sp. KPN54798,136,1.39
+sample2,illumina,Klebsiella pneumoniae,9284,98.07,Klebsiella sp. KPN54798,94,0.99,Klebsiella variicola,38,0.4,Salmonella enterica,19,0.2
+sample3,illumina,Klebsiella pneumoniae,9136,93.03,Klebsiella sp. Shm-1,221,2.25,Klebsiella quasipneumoniae,164,1.67,Klebsiella sp. KPN54798,136,1.39

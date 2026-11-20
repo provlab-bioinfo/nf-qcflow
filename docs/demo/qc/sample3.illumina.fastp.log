@@ -1,0 +1,52 @@
+Detecting adapter sequence for read1...
+No adapter detected for read1
+
+Detecting adapter sequence for read2...
+No adapter detected for read2
+
+Read1 before filtering:
+total reads: 10000
+total bases: 1498444
+Q20 bases: 1443613(96.3408%)
+Q30 bases: 1426351(95.1888%)
+Q40 bases: 0(0%)
+
+Read2 before filtering:
+total reads: 10000
+total bases: 1498680
+Q20 bases: 1418222(94.6314%)
+Q30 bases: 1392131(92.8905%)
+Q40 bases: 0(0%)
+
+Read1 after filtering:
+total reads: 9839
+total bases: 1474640
+Q20 bases: 1425245(96.6504%)
+Q30 bases: 1408801(95.5352%)
+Q40 bases: 0(0%)
+
+Read2 after filtering:
+total reads: 9839
+total bases: 1474804
+Q20 bases: 1403465(95.1628%)
+Q30 bases: 1378516(93.4711%)
+Q40 bases: 0(0%)
+
+Filtering result:
+reads passed filter: 19678
+reads failed due to low quality: 258
+reads failed due to too many N: 32
+reads failed due to too short: 32
+reads failed due to adapter dimer: 0
+reads with adapter trimmed: 12
+bases trimmed due to adapters: 507
+
+Duplication rate: 0.04%
+
+Insert size peak (evaluated by paired-end reads): 253
+
+JSON report: sample3.illumina.fastp.json
+HTML report: sample3.illumina.fastp.html
+
+fastp --in1 sample3.illumina_R1.fastq.gz --in2 sample3.illumina_R2.fastq.gz --out1 sample3.illumina_R1.fastp.fastq.gz --out2 sample3.illumina_R2.fastp.fastq.gz --json sample3.illumina.fastp.json --html sample3.illumina.fastp.html --thread 4 --detect_adapter_for_pe --cut_front --cut_front_window_size=1 --cut_front_mean_quality=10 --cut_tail --cut_tail_window_size=1 --cut_tail_mean_quality=10 --n_base_limit 0 --qualified_quality_phred 20 --average_qual 20 --length_required 50 --detect_adapter_for_pe 
+fastp v1.4.0, time used: 6 seconds

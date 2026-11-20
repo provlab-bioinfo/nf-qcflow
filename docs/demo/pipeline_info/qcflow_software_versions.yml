@@ -1,0 +1,56 @@
+BRACKEN_BRACKEN:
+  bracken: 3.0.1
+BRACKEN_GETTOPMATCHES:
+  python: 3.12.2
+CSVTK_CONCAT_COMBINED_QCREPORTS:
+  csvtk: 0.37.0
+CSVTK_CONCAT_COMBINED_TOPMATCHES:
+  csvtk: 0.37.0
+CSVTK_CONCAT_STATS_DEHOSTED:
+  csvtk: 0.37.0
+CSVTK_CONCAT_STATS_INPUT:
+  csvtk: 0.37.0
+CSVTK_CONCAT_STATS_TRIMMED:
+  csvtk: 0.37.0
+CSVTK_CONCAT_TOPMATCHES:
+  csvtk: 0.37.0
+CSVTK_SORT:
+  csvtk: 0.37.0
+DEACON_FILTER:
+  deacon: 0.15.0
+FASTP:
+  fastp: 1.4.0
+FASTPLONG:
+  fastplong: 0.7.0
+FASTQC_DEHOSTED:
+  fastqc: 0.13.0
+FASTQC_INPUT:
+  fastqc: 0.13.0
+FASTQC_TRIMMED:
+  fastqc: 0.13.0
+KRAKEN2_KRAKEN2:
+  kraken2: 2.17.1
+  pigz: bash: line 1: pigz: command not found
+NANOPLOT_DEHOSTED:
+  NanoPlot: 1.48.0
+NANOPLOT_INPUT:
+  NanoPlot: 1.48.0
+NANOPLOT_TRIMMED:
+  NanoPlot: 1.48.0
+READ_QCREPORT:
+  python: 3.12.3
+SEQKIT_STATS_DEHOSTED:
+  seqkit: 2.13.0
+SEQKIT_STATS_INPUT:
+  seqkit: 2.13.0
+SEQKIT_STATS_SUMMARY_DEHOSTED:
+  python: 3.12.2
+SEQKIT_STATS_SUMMARY_INPUT:
+  python: 3.12.2
+SEQKIT_STATS_SUMMARY_TRIMMED:
+  python: 3.12.2
+SEQKIT_STATS_TRIMMED:
+  seqkit: 2.13.0
+Workflow:
+    xiaoli-dong/qcflow: v2.0.0dev
+    Nextflow: 26.04.6
